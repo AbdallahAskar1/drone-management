@@ -1,0 +1,21 @@
+meta {
+  name: Withdraw Already Withdrawn (409)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/orders/{{orderId}}/withdraw
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+tests {
+  test("status 409", function() {
+    expect(res.status).to.equal(409);
+  });
+}

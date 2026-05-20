@@ -1,0 +1,30 @@
+meta {
+  name: Issue Drone 2 Token
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/auth/token
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "drone-beta",
+    "role": "drone"
+  }
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setVar("drone2Token", res.body.token);
+  }
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+}

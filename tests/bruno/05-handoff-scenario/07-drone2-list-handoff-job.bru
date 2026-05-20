@@ -1,0 +1,33 @@
+meta {
+  name: Drone2 — List Jobs (sees handoff job)
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/drone/jobs
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{drone2Token}}
+}
+
+script:post-response {
+  if (res.status === 200 && res.body.jobs && res.body.jobs.length > 0) {
+    bru.setVar("jobId", res.body.jobs[0].id);
+  }
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("handoff job visible", function() {
+    expect(res.body.jobs.length).to.be.greaterThan(0);
+  });
+  test("job type is handoff_pickup", function() {
+    expect(res.body.jobs[0].type).to.equal("handoff_pickup");
+  });
+}

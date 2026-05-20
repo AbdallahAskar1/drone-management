@@ -1,0 +1,24 @@
+meta {
+  name: Get Drone's Assigned Order
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/drone/self/order
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{droneToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("order id matches", function() {
+    expect(res.body.id).to.equal(bru.getVar("orderId"));
+  });
+}

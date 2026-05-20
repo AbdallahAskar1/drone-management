@@ -1,0 +1,24 @@
+meta {
+  name: Drone2 — Pickup (handoff)
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/drone/orders/{{orderId}}/pickup
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{drone2Token}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("in_transit again", function() {
+    expect(res.body.status).to.equal("in_transit");
+  });
+}

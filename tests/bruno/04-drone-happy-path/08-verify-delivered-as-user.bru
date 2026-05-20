@@ -1,0 +1,28 @@
+meta {
+  name: Verify Delivered (user view + timeline)
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/orders/{{orderId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("status delivered", function() {
+    expect(res.body.status).to.equal("delivered");
+  });
+  test("timeline present", function() {
+    expect(res.body.timeline).to.be.an("array");
+    expect(res.body.timeline.length).to.be.greaterThan(0);
+  });
+}

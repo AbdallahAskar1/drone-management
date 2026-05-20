@@ -1,0 +1,30 @@
+meta {
+  name: Drone1 — List Jobs and Reserve
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/drone/jobs
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{droneToken}}
+}
+
+script:post-response {
+  if (res.status === 200 && res.body.jobs && res.body.jobs.length > 0) {
+    bru.setVar("jobId", res.body.jobs[0].id);
+  }
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("job available", function() {
+    expect(res.body.jobs.length).to.be.greaterThan(0);
+  });
+}

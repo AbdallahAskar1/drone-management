@@ -1,0 +1,34 @@
+meta {
+  name: Drone Heartbeat (mid-flight)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/drone/self/heartbeat
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{droneToken}}
+}
+
+body:json {
+  {
+    "lat": 30.25,
+    "lng": 31.25
+  }
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("drone present", function() {
+    expect(res.body.drone).to.exist;
+  });
+  test("order attached", function() {
+    expect(res.body.order).to.exist;
+  });
+}

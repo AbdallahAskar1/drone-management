@@ -1,0 +1,28 @@
+meta {
+  name: RBAC — Drone cannot submit order (403)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{droneToken}}
+}
+
+body:json {
+  {
+    "origin": { "lat": 1.0, "lng": 1.0 },
+    "destination": { "lat": 2.0, "lng": 2.0 }
+  }
+}
+
+tests {
+  test("status 403", function() {
+    expect(res.status).to.equal(403);
+  });
+}

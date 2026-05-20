@@ -1,0 +1,24 @@
+meta {
+  name: Drone2 — Delivered
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/drone/orders/{{orderId}}/delivered
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{drone2Token}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("delivered", function() {
+    expect(res.body.status).to.equal("delivered");
+  });
+}

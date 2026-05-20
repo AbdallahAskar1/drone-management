@@ -1,0 +1,36 @@
+meta {
+  name: Issue User Token
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/auth/token
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "alice",
+    "role": "enduser"
+  }
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setVar("userToken", res.body.token);
+  }
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("has token", function() {
+    expect(res.body.token).to.be.a("string");
+  });
+  test("role is enduser", function() {
+    expect(res.body.principal.role).to.equal("enduser");
+  });
+}

@@ -1,0 +1,17 @@
+meta {
+  name: RBAC — No token returns 401
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/orders/1
+  body: none
+  auth: none
+}
+
+tests {
+  test("status 401", function() {
+    expect(res.status).to.equal(401);
+  });
+}

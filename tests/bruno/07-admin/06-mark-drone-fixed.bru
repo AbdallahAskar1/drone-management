@@ -1,0 +1,24 @@
+meta {
+  name: Admin — Mark Drone Fixed
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/admin/drones/{{droneId}}/fixed
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("drone is active", function() {
+    expect(res.body.drone.status).to.equal("active");
+  });
+}

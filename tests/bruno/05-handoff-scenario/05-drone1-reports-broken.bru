@@ -1,0 +1,24 @@
+meta {
+  name: Drone1 — Reports Broken (triggers handoff)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/drone/self/broken
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{droneToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("drone is broken", function() {
+    expect(res.body.drone.status).to.equal("broken");
+  });
+}

@@ -1,0 +1,24 @@
+meta {
+  name: Verify Order is handoff_required
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/orders/{{orderId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("handoff_required", function() {
+    expect(res.body.status).to.equal("handoff_required");
+  });
+}

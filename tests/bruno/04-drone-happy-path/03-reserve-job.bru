@@ -1,0 +1,24 @@
+meta {
+  name: Reserve Job
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/drone/jobs/{{jobId}}/reserve
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{droneToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("job is reserved", function() {
+    expect(res.body.job.status).to.equal("reserved");
+  });
+}

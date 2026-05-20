@@ -1,0 +1,31 @@
+meta {
+  name: Admin — Patch Order Destination
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/admin/orders/{{orderId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "destination": { "lat": 31.0, "lng": 32.0 }
+  }
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("destination updated", function() {
+    expect(res.body.dest_lat).to.equal(31.0);
+    expect(res.body.dest_lng).to.equal(32.0);
+  });
+}

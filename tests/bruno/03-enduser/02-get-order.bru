@@ -1,0 +1,28 @@
+meta {
+  name: Get Order
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/orders/{{orderId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("id matches", function() {
+    expect(res.body.id).to.equal(bru.getVar("orderId"));
+  });
+  test("has origin and destination", function() {
+    expect(res.body.origin_lat).to.exist;
+    expect(res.body.dest_lat).to.exist;
+  });
+}

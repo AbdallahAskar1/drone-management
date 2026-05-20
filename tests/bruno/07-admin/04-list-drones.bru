@@ -1,0 +1,30 @@
+meta {
+  name: Admin — List All Drones
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/admin/drones
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+script:post-response {
+  if (res.status === 200 && res.body.drones && res.body.drones.length > 0) {
+    bru.setVar("droneId", res.body.drones[0].id);
+  }
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("drones array present", function() {
+    expect(res.body.drones).to.be.an("array");
+  });
+}

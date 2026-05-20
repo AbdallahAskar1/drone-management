@@ -1,0 +1,21 @@
+meta {
+  name: Drone2 — Reserve Handoff Job
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/drone/jobs/{{jobId}}/reserve
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{drone2Token}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+}

@@ -1,0 +1,24 @@
+meta {
+  name: Pickup Order
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/drone/orders/{{orderId}}/pickup
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{droneToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("order in_transit", function() {
+    expect(res.body.status).to.equal("in_transit");
+  });
+}

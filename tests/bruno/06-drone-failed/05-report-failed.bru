@@ -1,0 +1,24 @@
+meta {
+  name: Drone — Report Delivery Failed
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/drone/orders/{{orderId}}/failed
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{droneToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("order failed", function() {
+    expect(res.body.status).to.equal("failed");
+  });
+}

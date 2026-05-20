@@ -1,0 +1,24 @@
+meta {
+  name: Admin — Mark Drone Broken
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/admin/drones/{{droneId}}/broken
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("drone is broken", function() {
+    expect(res.body.drone.status).to.equal("broken");
+  });
+}

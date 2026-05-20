@@ -1,0 +1,33 @@
+meta {
+  name: Issue Admin Token
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/auth/token
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "super-admin",
+    "role": "admin"
+  }
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setVar("adminToken", res.body.token);
+  }
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("role is admin", function() {
+    expect(res.body.principal.role).to.equal("admin");
+  });
+}

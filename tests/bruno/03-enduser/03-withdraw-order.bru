@@ -1,0 +1,27 @@
+meta {
+  name: Withdraw Order
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/orders/{{orderId}}/withdraw
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("status is withdrawn", function() {
+    expect(res.body.status).to.equal("withdrawn");
+  });
+  test("withdrawn_at is set", function() {
+    expect(res.body.withdrawn_at).to.not.be.null;
+  });
+}
